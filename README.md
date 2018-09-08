@@ -1,4 +1,4 @@
-IEX Finance API C++ Client
+IEX Finance C++ Client
 ===
 
 C++ client to consume the [IEX Finance API](https://iextrading.com/developer).

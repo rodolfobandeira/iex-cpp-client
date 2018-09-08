@@ -33,4 +33,4 @@
 
 # Custom
 main
-.idea # Clion IDE
+release.sh
