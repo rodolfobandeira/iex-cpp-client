@@ -80,12 +80,42 @@ void print_stats(const std::string& symbol) {
     cout << "day5ChangePercent: " << ksd.day5ChangePercent << endl;
 }
 
+void print_financials(const std::string& symbol,
+                      const IEX::Resources::Financials::Period period) {
+    auto financials = IEX::Resources::Financials::get(symbol, period);
+    for (const auto& f : financials) {
+        cout << "called_endpoint: " << f.called_endpoint << endl;
+        cout << "stock_symbol: " << f.stock_symbol << endl;
+        cout << "report_date: " << f.report_date << endl;
+        cout << "gross_profit: " << f.gross_profit << endl;
+        cout << "operating_revenue: " << f.operating_revenue << endl;
+        cout << "total_revenue: " << f.total_revenue << endl;
+        cout << "operating_income: " << f.operating_income << endl;
+        cout << "net_income: " << f.net_income << endl;
+        cout << "research_and_development: " << f.research_and_development
+             << endl;
+        cout << "operating_expense: " << f.operating_expense << endl;
+        cout << "current_assets: " << f.current_assets << endl;
+        cout << "total_assets: " << f.total_assets << endl;
+        cout << "total_liabilities: " << f.total_liabilities << endl;
+        cout << "current_cash: " << f.current_cash << endl;
+        cout << "current_debt: " << f.current_debt << endl;
+        cout << "total_cash: " << f.total_cash << endl;
+        cout << "total_debt: " << f.total_debt << endl;
+        cout << "shareholder_equity: " << f.shareholder_equity << endl;
+        cout << "cash_change: " << f.cash_change << endl;
+        cout << "cash_flow: " << f.cash_flow << endl;
+        cout << "operating_gains_losses: " << f.operating_gains_losses << endl;
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc == 2) {
         std::string symbol = argv[1];
         print_company(symbol);
         print_price(symbol);
         print_stats(symbol);
+        print_financials(symbol, IEX::Resources::Financials::Period::annual);
         return 0;
     } else {
         cout << "Error! Usage: " << argv[0] << " [stock symbol]" << endl;
