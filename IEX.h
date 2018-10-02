@@ -6,6 +6,7 @@
 #include <curl/curl.h>
 #include <cstdint>  // uint64_t, etc.
 #include <iostream>
+#include <sstream>
 #include <locale>  // std::locale, std::isdigit
 #include <memory>  // std::unique_ptr
 #include <string>
@@ -62,18 +63,19 @@ namespace IEX {
             curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
             long int httpCode(0);
-            std::unique_ptr<std::string> httpData(new std::string());
+
+            std::stringstream httpData;
+
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
             curl_easy_perform(curl);
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
             curl_easy_cleanup(curl);
 
-            // Json::CharReaderBuilder jsonReader;
-            // Json::CharReader* reader;
+            Json::CharReaderBuilder jsonReader;
+            std::string errs;
 
-            Json::Reader jsonReader;
-            jsonReader.parse(*httpData, jsonData);
+            Json::parseFromStream(jsonReader, httpData, &jsonData, &errs);
         }
 
         struct KeyStatsData {
