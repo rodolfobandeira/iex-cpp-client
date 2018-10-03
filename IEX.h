@@ -6,6 +6,7 @@
 #include <curl/curl.h>
 #include <cstdint>  // uint64_t, etc.
 #include <iostream>
+#include <functional>
 #include <sstream>
 #include <locale>  // std::locale, std::isdigit
 #include <memory>  // std::unique_ptr
@@ -14,7 +15,6 @@
 
 #ifndef IEX_H_INCLUDED
 #define IEX_H_INCLUDED
-#define IEX_API_V1_ENDPOINT "https://api.iextrading.com/1.0"
 
 namespace IEX {
     namespace Resources {
@@ -58,12 +58,24 @@ namespace IEX {
             }
         }
 
-        static void sendGetRequest(Json::Value& jsonData,
-                                   const std::string url,
-                                   std::size_t (*callback)(const char*,
-                                                           std::size_t,
-                                                           std::size_t,
-                                                           std::string*)) {
+        using Callback = std::function<std::size_t(const char*,
+                                                   std::size_t,
+                                                   std::size_t,
+                                                   std::string*)>;
+
+        static std::size_t defaultCallback(const char* in,
+                                           std::size_t size,
+                                           std::size_t num,
+                                           std::string* out) {
+            const std::size_t totalBytes(size * num);
+            out->append(in, totalBytes);
+            return totalBytes;
+        }
+
+        static const std::string IEX_API_V1_ENDPOINT{"https://api.iextrading.com/1.0"};
+
+        static Json::Value sendGetRequest(const std::string& url,
+                                          Callback callback = defaultCallback) {
             CURL* curl = curl_easy_init();
 
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -82,7 +94,10 @@ namespace IEX {
 
             std::stringstream ss;
             ss.str(*httpData);
+
+            Json::Value jsonData;
             ss >> jsonData;
+            return jsonData;
         }
 
         struct FinancialsData {
@@ -111,27 +126,16 @@ namespace IEX {
 
         class Financials {
         public:
-            static std::size_t callback(const char* in,
-                                        std::size_t size,
-                                        std::size_t num,
-                                        std::string* out) {
-                const std::size_t totalBytes(size * num);
-                out->append(in, totalBytes);
-                return totalBytes;
-            }
-
             enum class Period { annual, quarter };
 
             static std::vector<FinancialsData> get(
-                const std::string stock_symbol,
+                const std::string& stock_symbol,
                 const Period period) {
                 std::string url = IEX_API_V1_ENDPOINT;
-                url += "/stock/" + std::string(stock_symbol) +
-                       "/financials?period=" +
+                url += "/stock/" + stock_symbol + "/financials?period=" +
                        (Period::annual == period ? "annual" : "quarter");
 
-                Json::Value jsonData;
-                sendGetRequest(jsonData, url, callback);
+                Json::Value jsonData = sendGetRequest(url);
 
                 FinancialsData fd;
                 fd.called_endpoint = url;
@@ -224,21 +228,11 @@ namespace IEX {
 
         class KeyStats {
         public:
-            static std::size_t callback(const char* in,
-                                        std::size_t size,
-                                        std::size_t num,
-                                        std::string* out) {
-                const std::size_t totalBytes(size * num);
-                out->append(in, totalBytes);
-                return totalBytes;
-            }
-
-            static KeyStatsData get(const std::string stock_symbol) {
+            static KeyStatsData get(const std::string& stock_symbol) {
                 std::string url = IEX_API_V1_ENDPOINT;
-                url += "/stock/" + std::string(stock_symbol) + "/stats";
+                url += "/stock/" + stock_symbol + "/stats";
 
-                Json::Value jsonData;
-                sendGetRequest(jsonData, url, callback);
+                Json::Value jsonData = sendGetRequest(url);
 
                 KeyStatsData ksd;
 
@@ -315,21 +309,11 @@ namespace IEX {
 
         class Company {
         public:
-            static std::size_t callback(const char* in,
-                                        std::size_t size,
-                                        std::size_t num,
-                                        std::string* out) {
-                const std::size_t totalBytes(size * num);
-                out->append(in, totalBytes);
-                return totalBytes;
-            }
-
-            static CompanyData get(const std::string stock_symbol) {
+            static CompanyData get(const std::string& stock_symbol) {
                 std::string url = IEX_API_V1_ENDPOINT;
-                url += "/stock/" + std::string(stock_symbol) + "/company";
+                url += "/stock/" + stock_symbol + "/company";
 
-                Json::Value jsonData;
-                sendGetRequest(jsonData, url, callback);
+                Json::Value jsonData = sendGetRequest(url);
 
                 CompanyData cd;
 
@@ -364,21 +348,11 @@ namespace IEX {
 
         class Price {
         public:
-            static std::size_t callback(const char* in,
-                                        std::size_t size,
-                                        std::size_t num,
-                                        std::string* out) {
-                const std::size_t totalBytes(size * num);
-                out->append(in, totalBytes);
-                return totalBytes;
-            }
-
-            static PriceData get(const std::string stock_symbol) {
+            static PriceData get(const std::string& stock_symbol) {
                 std::string url = IEX_API_V1_ENDPOINT;
-                url += "/stock/" + std::string(stock_symbol) + "/price";
+                url += "/stock/" + stock_symbol + "/price";
 
-                Json::Value jsonData;
-                sendGetRequest(jsonData, url, callback);
+                Json::Value jsonData = sendGetRequest(url);
 
                 PriceData pd;
                 pd.called_endpoint = url;
@@ -397,21 +371,11 @@ namespace IEX {
 
         class CompanyLogo {
         public:
-            static std::size_t callback(const char* in,
-                                        std::size_t size,
-                                        std::size_t num,
-                                        std::string* out) {
-                const std::size_t totalBytes(size * num);
-                out->append(in, totalBytes);
-                return totalBytes;
-            }
-
             static CompanyLogoData get(const std::string& stock_symbol) {
                 std::string url = IEX_API_V1_ENDPOINT;
                 url += "/stock/" + stock_symbol + "/logo";
 
-                Json::Value jsonData;
-                sendGetRequest(jsonData, url, callback);
+                Json::Value jsonData = sendGetRequest(url);
 
                 CompanyLogoData data;
                 data.called_endpoint = url;
