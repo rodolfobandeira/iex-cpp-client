@@ -28,7 +28,7 @@ On Debian-based distributions you can install the required dependencies using th
 
 `sudo apt-get install libjsoncpp-dev libcurl-dev`
 
-Compiling: 
+Compiling:
 
 `g++ -o main main.cpp -lcurl -ljsoncpp -std=c++11`
 
@@ -38,6 +38,28 @@ Compiling:
 Called Endpoint: https://api.iextrading.com/1.0/stock/AMZN/price
 Stock Symbol: AMZN
 Latest Price: $1952.07
+```
+
+### Compiling Using CMake
+
+Compile this project using standing CMake:
+
+```
+mkdir build
+cd build
+cmake ..
+make
+./main AMZN
+```
+
+Or, for an optimized build:
+
+```
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release
+make
+./main AMZN
 ```
 
 ## Contributing
