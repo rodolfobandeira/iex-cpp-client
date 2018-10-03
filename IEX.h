@@ -26,6 +26,14 @@ namespace IEX {
             }
         }
 
+        static int64_t getInt64(const Json::Value& v) {
+            if (!v) {
+                return 0;
+            } else {
+                return v.asInt64();
+            }
+        }
+
         static uint64_t getUInt64(const Json::Value& v) {
             if (!v) {
                 return 0;
@@ -76,6 +84,90 @@ namespace IEX {
             ss.str(*httpData);
             ss >> jsonData;
         }
+
+        struct FinancialsData {
+            std::string called_endpoint;
+            std::string stock_symbol;
+            std::string report_date;
+            int64_t gross_profit;
+            int64_t operating_revenue;
+            int64_t total_revenue;
+            int64_t operating_income;
+            int64_t net_income;
+            int64_t research_and_development;
+            int64_t operating_expense;
+            int64_t current_assets;
+            int64_t total_assets;
+            int64_t total_liabilities;
+            int64_t current_cash;
+            int64_t current_debt;
+            int64_t total_cash;
+            int64_t total_debt;
+            int64_t shareholder_equity;
+            int64_t cash_change;
+            int64_t cash_flow;
+            std::string operating_gains_losses;
+        };
+
+        class Financials {
+        public:
+            static std::size_t callback(const char* in,
+                                        std::size_t size,
+                                        std::size_t num,
+                                        std::string* out) {
+                const std::size_t totalBytes(size * num);
+                out->append(in, totalBytes);
+                return totalBytes;
+            }
+
+            enum class Period { annual, quarter };
+
+            static std::vector<FinancialsData> get(
+                const std::string stock_symbol,
+                const Period period) {
+                std::string url = IEX_API_V1_ENDPOINT;
+                url += "/stock/" + std::string(stock_symbol) +
+                       "/financials?period=" +
+                       (Period::annual == period ? "annual" : "quarter");
+
+                Json::Value jsonData;
+                sendGetRequest(jsonData, url, callback);
+
+                FinancialsData fd;
+                fd.called_endpoint = url;
+                fd.stock_symbol = stock_symbol;
+
+                std::vector<FinancialsData> results;
+                for (const auto& f : jsonData["financials"]) {
+                    FinancialsData fd;
+
+                    // clang-format off
+                    fd.report_date              = getString(f["reportDate"]);
+                    fd.gross_profit             = getInt64(f["grossProfit"]);
+                    fd.operating_revenue        = getInt64(f["operatingRevenue"]);
+                    fd.total_revenue            = getInt64(f["totalRevenue"]);
+                    fd.operating_income         = getInt64(f["operatingIncome"]);
+                    fd.net_income               = getInt64(f["netIncome"]);
+                    fd.research_and_development = getInt64(f["researchAndDevelopment"]);
+                    fd.operating_expense        = getInt64(f["operatingExpense"]);
+                    fd.current_assets           = getInt64(f["currentAssets"]);
+                    fd.total_assets             = getInt64(f["totalAssets"]);
+                    fd.total_liabilities        = getInt64(f["totalLiabilities"]);
+                    fd.current_cash             = getInt64(f["currentCash"]);
+                    fd.current_debt             = getInt64(f["currentDebt"]);
+                    fd.total_cash               = getInt64(f["totalCash"]);
+                    fd.total_debt               = getInt64(f["totalDebt"]);
+                    fd.shareholder_equity       = getInt64(f["shareholderEquity"]);
+                    fd.cash_change              = getInt64(f["cashChange"]);
+                    fd.cash_flow                = getInt64(f["cashFlow"]);
+                    fd.operating_gains_losses   = getString(f["operatingGainsLosses"]);
+                    // clang-format on
+
+                    results.push_back(fd);
+                }
+                return results;
+            }
+        };
 
         struct KeyStatsData {
             std::string called_endpoint;
