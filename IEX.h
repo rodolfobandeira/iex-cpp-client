@@ -64,7 +64,7 @@ namespace IEX {
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
             long int httpCode(0);
 
-            std::stringstream httpData;
+            std::unique_ptr<std::string> httpData(new std::string);
 
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
@@ -72,10 +72,9 @@ namespace IEX {
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
             curl_easy_cleanup(curl);
 
-            Json::CharReaderBuilder jsonReader;
-            std::string errs;
-
-            Json::parseFromStream(jsonReader, httpData, &jsonData, &errs);
+            std::stringstream ss;
+            ss.str(*httpData);
+            ss >> jsonData;
         }
 
         struct KeyStatsData {
