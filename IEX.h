@@ -388,6 +388,39 @@ namespace IEX {
                 return pd;
             }
         };
+
+        struct CompanyLogoData {
+            std::string called_endpoint;
+            std::string stock_symbol;
+            std::string logo_url;
+        };
+
+        class CompanyLogo {
+        public:
+            static std::size_t callback(const char* in,
+                                        std::size_t size,
+                                        std::size_t num,
+                                        std::string* out) {
+                const std::size_t totalBytes(size * num);
+                out->append(in, totalBytes);
+                return totalBytes;
+            }
+
+            static CompanyLogoData get(const std::string& stock_symbol) {
+                std::string url = IEX_API_V1_ENDPOINT;
+                url += "/stock/" + stock_symbol + "/logo";
+
+                Json::Value jsonData;
+                sendGetRequest(jsonData, url, callback);
+
+                CompanyLogoData data;
+                data.called_endpoint = url;
+                data.stock_symbol = stock_symbol;
+                data.logo_url = jsonData["url"].asString();
+
+                return data;
+            }
+        };
     }  // namespace Resources
 }  // namespace IEX
 

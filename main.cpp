@@ -27,6 +27,15 @@ void print_company(const std::string& symbol) {
         cout << "  " << t << endl;
     }
 }
+
+void print_company_logo(const std::string& symbol) {
+    IEX::Resources::CompanyLogoData cld = IEX::Resources::CompanyLogo::get(symbol);
+
+    cout << "Called Endpoint: " << cld.called_endpoint << endl;
+    cout << "Stock Symbol: " << cld.stock_symbol << endl;
+    cout << "Company Logo URL: " << cld.logo_url << endl;
+}
+
 void print_stats(const std::string& symbol) {
     IEX::Resources::KeyStatsData ksd = IEX::Resources::KeyStats::get(symbol);
     cout << "Called Endpoint: " << ksd.called_endpoint << endl;
@@ -113,6 +122,7 @@ int main(int argc, char* argv[]) {
     if (argc == 2) {
         std::string symbol = argv[1];
         print_company(symbol);
+        print_company_logo(symbol);
         print_price(symbol);
         print_stats(symbol);
         print_financials(symbol, IEX::Resources::Financials::Period::annual);
