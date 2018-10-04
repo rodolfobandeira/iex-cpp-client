@@ -1,6 +1,8 @@
 IEX Finance C++ Client
 ===
 
+[![Build Status](https://travis-ci.org/rodolfobandeira/iex-cpp-client.svg?branch=master)](https://travis-ci.org/rodolfobandeira/iex-cpp-client)
+
 C++ client to consume the [IEX Finance API](https://iextrading.com/developer).
 
 ## Example
