@@ -85,7 +85,7 @@ namespace IEX {
 
             std::unique_ptr<std::string> httpData(new std::string);
 
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, defaultCallback);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
             curl_easy_perform(curl);
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
@@ -136,15 +136,13 @@ namespace IEX {
 
                 Json::Value jsonData = sendGetRequest(url);
 
-                FinancialsData fd;
-                fd.called_endpoint = url;
-                fd.stock_symbol = stock_symbol;
-
                 std::vector<FinancialsData> results;
                 for (const auto& f : jsonData["financials"]) {
                     FinancialsData fd;
 
                     // clang-format off
+                    fd.called_endpoint          = url;
+                    fd.stock_symbol             = stock_symbol;
                     fd.report_date              = getString(f["reportDate"]);
                     fd.gross_profit             = getInt64(f["grossProfit"]);
                     fd.operating_revenue        = getInt64(f["operatingRevenue"]);
