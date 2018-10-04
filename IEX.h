@@ -5,11 +5,11 @@
 #endif
 #include <curl/curl.h>
 #include <cstdint>  // uint64_t, etc.
-#include <iostream>
 #include <functional>
-#include <sstream>
+#include <iostream>
 #include <locale>  // std::locale, std::isdigit
 #include <memory>  // std::unique_ptr
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -58,10 +58,8 @@ namespace IEX {
             }
         }
 
-        using Callback = std::function<std::size_t(const char*,
-                                                   std::size_t,
-                                                   std::size_t,
-                                                   std::string*)>;
+        using Callback = std::function<
+            std::size_t(const char*, std::size_t, std::size_t, std::string*)>;
 
         static std::size_t defaultCallback(const char* in,
                                            std::size_t size,
@@ -72,7 +70,8 @@ namespace IEX {
             return totalBytes;
         }
 
-        static const std::string IEX_API_V1_ENDPOINT{"https://api.iextrading.com/1.0"};
+        static const std::string IEX_API_V1_ENDPOINT{
+            "https://api.iextrading.com/1.0"};
 
         static Json::Value sendGetRequest(const std::string& url,
                                           Callback callback = defaultCallback) {
