@@ -32,7 +32,7 @@ BraceWrapping:
   BeforeCatch:     false
   BeforeElse:      false
   IndentBraces:    false
-  SplitEmptyFunctionBody: true
+# SplitEmptyFunctionBody: true  ----> I'm getting an error:  YAML:35:27: error: unknown key 'SplitEmptyFunctionBody'
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Attach
 BreakBeforeInheritanceComma: false

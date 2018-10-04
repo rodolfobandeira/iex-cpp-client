@@ -29,7 +29,8 @@ void print_company(const std::string& symbol) {
 }
 
 void print_company_logo(const std::string& symbol) {
-    IEX::Resources::CompanyLogoData cld = IEX::Resources::CompanyLogo::get(symbol);
+    IEX::Resources::CompanyLogoData cld =
+        IEX::Resources::CompanyLogo::get(symbol);
 
     cout << "Called Endpoint: " << cld.called_endpoint << endl;
     cout << "Stock Symbol: " << cld.stock_symbol << endl;
@@ -118,7 +119,6 @@ void print_financials(const std::string& symbol,
     }
 }
 
-
 void menu_options(const std::string& symbol) {
     cout << "\n--------------------------------------------------" << endl;
     cout << "OPTIONS for [" + symbol + "]" << endl;
@@ -130,48 +130,48 @@ void menu_options(const std::string& symbol) {
     cout << " 0. Quit\n\n" << endl;
 }
 
-
 void print_menu(const std::string& symbol) {
     int choice;
     menu_options(symbol);
     std::cin >> choice;
 
     while (choice != 0) {
-        switch(choice) {
-        case 1:
-           print_company(symbol);
-           break;
-        case 2:
-           print_company_logo(symbol);
-           break;
-        case 3:
-           print_price(symbol);
-           break;
-        case 4:
-           print_stats(symbol);
-           break;
-        case 5:
-           print_financials(symbol, IEX::Resources::Financials::Period::annual);
-           break;
-        case 0:
-           std::cout << "Bye!" << endl;
-           break;
-        default:
-           std::cout << "Invalid Option" << endl;
-           break;
+        switch (choice) {
+            case 1:
+                print_company(symbol);
+                break;
+            case 2:
+                print_company_logo(symbol);
+                break;
+            case 3:
+                print_price(symbol);
+                break;
+            case 4:
+                print_stats(symbol);
+                break;
+            case 5:
+                print_financials(symbol,
+                                 IEX::Resources::Financials::Period::annual);
+                break;
+            case 0:
+                std::cout << "Bye!" << endl;
+                break;
+            default:
+                std::cout << "Invalid Option" << endl;
+                break;
         }
         cin.clear();
         menu_options(symbol);
         std::cin >> choice;
-   }
+    }
 }
 
 void run_all_methods(const std::string& symbol) {
-   print_company(symbol);
-   print_company_logo(symbol);
-   print_price(symbol);
-   print_stats(symbol);
-   print_financials(symbol, IEX::Resources::Financials::Period::annual);
+    print_company(symbol);
+    print_company_logo(symbol);
+    print_price(symbol);
+    print_stats(symbol);
+    print_financials(symbol, IEX::Resources::Financials::Period::annual);
 }
 
 int main(int argc, char* argv[]) {
@@ -179,10 +179,10 @@ int main(int argc, char* argv[]) {
         std::string symbol = argv[1];
 
         if (symbol == "TRAVIS_CI") {
-          run_all_methods("AMZN");
+            run_all_methods("AMZN");
         } else {
-          print_menu(symbol);
-          return 0;
+            print_menu(symbol);
+            return 0;
         }
 
     } else {
@@ -190,4 +190,3 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 }
-
