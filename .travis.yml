@@ -10,7 +10,7 @@ before_install:
   # - if [ $TRAVIS_OS_NAME == linux ]; then ./travis-ci/dependencies.sh; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install jsoncpp && brew install curl; fi
 script:
-  - ./compile.sh && ./main TRAVIS_CI;
+  - ./compile.sh && ./main AMZN -a;
 
 # Disabled LINUX temporary in favor to speed.
 # TODO: After adding proper unit tests, enabled it for OSX and maybe travis "matrix" to test under multiple

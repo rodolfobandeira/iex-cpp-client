@@ -5,36 +5,35 @@ IEX Finance C++ Client
 
 C++ client to consume the [IEX Finance API](https://iextrading.com/developer).
 
-## Example
+## Usage
 
-```cpp
-#include "IEX.h"
+```
+IEX C++ Client 
 
-using namespace std;
+./main stock_symbol option
+    ex: ./main AMZN -p 
 
-int main(int argc, char *argv[]) {
-    IEX::Resources::PriceData stock;
-    stock = IEX::Resources::Price::get(string(argv[1]));
-
-    cout << "Called Endpoint: " << stock.called_endpoint << endl;
-    cout << "Stock Symbol: " << stock.stock_symbol << endl;
-    cout << "Latest Price: $" << stock.latest_price << endl;
-
-    return 0;
-}
+ options:
+   -c Company Information
+   -l Company Logo
+   -p Stock Latest Price
+   -s Stock Statistics
+   -r Stock Financial Reports
 ```
 
-## Library compilation
+## Compilation
 
 On Debian-based distributions you can install the required dependencies using the following command:
 
-`sudo apt-get install libjsoncpp-dev libcurl-dev`
+`sudo apt-get install libjsoncpp-dev libcurl4-gnutls-dev`
 
-Compiling:
+On MacOS using Homebrew:
+
+`brew install jsoncpp; brew install curl`
 
 `g++ -o main main.cpp -lcurl -ljsoncpp -std=c++11`
 
-`./example AMZN`
+`./main AMZN -p`
 
 ```
 Called Endpoint: https://api.iextrading.com/1.0/stock/AMZN/price
