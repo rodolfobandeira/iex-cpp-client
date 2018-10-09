@@ -6,9 +6,9 @@
 #include <curl/curl.h>
 #include <cstdint>  // uint64_t, etc.
 #include <iostream>
-#include <sstream>
 #include <locale>  // std::locale, std::isdigit
 #include <memory>  // std::unique_ptr
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -87,14 +87,14 @@ namespace IEX {
         }
 
         static std::size_t httpRequestToStringCallback(const char* in,
-                                    std::size_t size,
-                                    std::size_t num,
-                                    std::string* out) {
+                                                       std::size_t size,
+                                                       std::size_t num,
+                                                       std::string* out) {
             const std::size_t totalBytes(size * num);
             out->append(in, totalBytes);
             return totalBytes;
         }
-    }   
+    }  // namespace
 
     enum class Period { annual, quarter };
 
@@ -221,7 +221,6 @@ namespace IEX {
 
     class Stock {
     public:
-
         static std::vector<FinancialsData> getFinancials(
             const std::string stock_symbol,
             const Period period) {
@@ -389,11 +388,9 @@ namespace IEX {
         //  on success or an empty struct with the success field set to
         //  false
         static DividendsData getDividends(const std::string stock_symbol,
-                                         const std::string time_period) {
-            std::string url = std::string(IEX_API_V1_ENDPOINT) +
-                              "/stock/" +
-                              std::string(stock_symbol) +
-                              "/dividends/" +
+                                          const std::string time_period) {
+            std::string url = std::string(IEX_API_V1_ENDPOINT) + "/stock/" +
+                              std::string(stock_symbol) + "/dividends/" +
                               std::string(time_period);
 
             Json::Value json_data;
@@ -412,7 +409,8 @@ namespace IEX {
 
                 dividend.payment_date = getString(dividend_json["paymentDate"]);
                 dividend.record_date = getString(dividend_json["recordDate"]);
-                dividend.declared_date = getString(dividend_json["declaredDate"]);
+                dividend.declared_date =
+                    getString(dividend_json["declaredDate"]);
                 dividend.amount = getDouble(dividend_json["amount"]);
                 dividend.flag = getString(dividend_json["flag"]);
                 dividend.type = getString(dividend_json["type"]);
@@ -433,19 +431,19 @@ namespace IEX {
         }
 
         static CompanyLogoData getCompanyLogo(const std::string& stock_symbol) {
-                std::string url = IEX_API_V1_ENDPOINT;
-                url += "/stock/" + stock_symbol + "/logo";
+            std::string url = IEX_API_V1_ENDPOINT;
+            url += "/stock/" + stock_symbol + "/logo";
 
-                Json::Value json_data;
-                sendGetRequest(json_data, url, httpRequestToStringCallback);
+            Json::Value json_data;
+            sendGetRequest(json_data, url, httpRequestToStringCallback);
 
-                CompanyLogoData data;
-                data.called_endpoint = url;
-                data.stock_symbol = stock_symbol;
-                data.logo_url = getString(json_data["url"]);
+            CompanyLogoData data;
+            data.called_endpoint = url;
+            data.stock_symbol = stock_symbol;
+            data.logo_url = getString(json_data["url"]);
 
-                return data;
-            }
+            return data;
+        }
     };
 }  // namespace IEX
 

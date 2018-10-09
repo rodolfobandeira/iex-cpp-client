@@ -89,8 +89,7 @@ void print_stats(const std::string& symbol) {
     cout << "day5ChangePercent: " << ksd.day_5_change_percent << endl;
 }
 
-void print_financials(const std::string& symbol,
-                      const IEX::Period period) {
+void print_financials(const std::string& symbol, const IEX::Period period) {
     auto financials = IEX::Stock::getFinancials(symbol, period);
     for (const auto& f : financials) {
         cout << "called_endpoint: " << f.called_endpoint << endl;
@@ -151,12 +150,12 @@ void menu_options() {
 }
 
 void run_all_methods(const std::string& symbol) {
-   print_company(symbol);
-   print_company_logo(symbol);
-   print_price(symbol);
-   print_stats(symbol);
-   print_financials(symbol, IEX::Period::annual);
-   print_dividends(symbol, "1y");
+    print_company(symbol);
+    print_company_logo(symbol);
+    print_price(symbol);
+    print_stats(symbol);
+    print_financials(symbol, IEX::Period::annual);
+    print_dividends(symbol, "1y");
 }
 
 int main(int argc, char* argv[]) {
@@ -173,8 +172,7 @@ int main(int argc, char* argv[]) {
         } else if (argument == "-s") {
             print_stats(symbol);
         } else if (argument == "-r") {
-            print_financials(symbol,
-                             IEX::Period::annual);
+            print_financials(symbol, IEX::Period::annual);
         } else if (argument == "-d") {
             print_dividends(symbol, "1y");
         } else if (argument == "-a") {
