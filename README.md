@@ -19,6 +19,7 @@ IEX C++ Client
    -p Stock Latest Price
    -s Stock Statistics
    -r Stock Financial Reports
+   -d Stock Dividends
 ```
 
 ## Compilation
