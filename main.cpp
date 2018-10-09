@@ -3,8 +3,8 @@
 using namespace std;
 
 void print_price(const std::string& symbol) {
-    IEX::Resources::PriceData stock;
-    stock = IEX::Resources::Price::get(symbol);
+    IEX::PriceData stock;
+    stock = IEX::Stock::getPrice(symbol);
 
     cout << "Called Endpoint: " << stock.called_endpoint << endl;
     cout << "Stock Symbol: " << stock.stock_symbol << endl;
@@ -12,7 +12,7 @@ void print_price(const std::string& symbol) {
 }
 
 void print_company(const std::string& symbol) {
-    IEX::Resources::CompanyData cd = IEX::Resources::Company::get(symbol);
+    IEX::CompanyData cd = IEX::Stock::getCompany(symbol);
     cout << "Called Endpoint: " << cd.called_endpoint << endl;
     cout << "Company Name: " << cd.company_name << endl;
     cout << "Exchange: " << cd.exchange << endl;
@@ -29,8 +29,7 @@ void print_company(const std::string& symbol) {
 }
 
 void print_company_logo(const std::string& symbol) {
-    IEX::Resources::CompanyLogoData cld =
-        IEX::Resources::CompanyLogo::get(symbol);
+    IEX::CompanyLogoData cld = IEX::Stock::getCompanyLogo(symbol);
 
     cout << "Called Endpoint: " << cld.called_endpoint << endl;
     cout << "Stock Symbol: " << cld.stock_symbol << endl;
@@ -38,61 +37,61 @@ void print_company_logo(const std::string& symbol) {
 }
 
 void print_stats(const std::string& symbol) {
-    IEX::Resources::KeyStatsData ksd = IEX::Resources::KeyStats::get(symbol);
+    IEX::KeyStatsData ksd = IEX::Stock::getKeyStats(symbol);
     cout << "Called Endpoint: " << ksd.called_endpoint << endl;
     cout << "Company Name: " << ksd.company_name << endl;
-    cout << "marketcap: " << ksd.marketcap << endl;
+    cout << "marketcap: " << ksd.market_cap << endl;
     cout << "beta: " << ksd.beta << endl;
-    cout << "week52high: " << ksd.week52high << endl;
-    cout << "week52low: " << ksd.week52low << endl;
-    cout << "week52change: " << ksd.week52change << endl;
-    cout << "shortInterest: " << ksd.shortInterest << endl;
-    cout << "shortDate: " << ksd.shortDate << endl;
-    cout << "dividendRate: " << ksd.dividendRate << endl;
-    cout << "dividendYield: " << ksd.dividendYield << endl;
-    cout << "exDividendDate: " << ksd.exDividendDate << endl;
-    cout << "latestEPS: " << ksd.latestEPS << endl;
-    cout << "latestEPSDate: " << ksd.latestEPSDate << endl;
-    cout << "sharesOutstanding: " << ksd.sharesOutstanding << endl;
+    cout << "week52high: " << ksd.week_52_high << endl;
+    cout << "week52low: " << ksd.week_52_low << endl;
+    cout << "week52change: " << ksd.week_52_change << endl;
+    cout << "shortInterest: " << ksd.short_interest << endl;
+    cout << "shortDate: " << ksd.short_date << endl;
+    cout << "dividendRate: " << ksd.dividend_rate << endl;
+    cout << "dividendYield: " << ksd.dividend_yield << endl;
+    cout << "exDividendDate: " << ksd.ex_dividend_date << endl;
+    cout << "latestEPS: " << ksd.latest_EPS << endl;
+    cout << "latestEPSDate: " << ksd.latest_EPS_date << endl;
+    cout << "sharesOutstanding: " << ksd.shares_outstanding << endl;
     cout << "_float: " << ksd._float << endl;
-    cout << "returnOnEquity: " << ksd.returnOnEquity << endl;
-    cout << "consensusEPS: " << ksd.consensusEPS << endl;
-    cout << "numberOfEstimates: " << ksd.numberOfEstimates << endl;
+    cout << "returnOnEquity: " << ksd.return_on_equity << endl;
+    cout << "consensusEPS: " << ksd.consensus_EPS << endl;
+    cout << "numberOfEstimates: " << ksd.number_of_estimates << endl;
     cout << "EBITDA: " << ksd.EBITDA << endl;
     cout << "revenue: " << ksd.revenue << endl;
-    cout << "grossProfit: " << ksd.grossProfit << endl;
+    cout << "grossProfit: " << ksd.gross_profit << endl;
     cout << "cash: " << ksd.cash << endl;
     cout << "debt: " << ksd.debt << endl;
-    cout << "ttmEPS: " << ksd.ttmEPS << endl;
-    cout << "revenuePerShare: " << ksd.revenuePerShare << endl;
-    cout << "revenuePerEmployee: " << ksd.revenuePerEmployee << endl;
-    cout << "peRatioHigh: " << ksd.peRatioHigh << endl;
-    cout << "peRatioLow: " << ksd.peRatioLow << endl;
-    cout << "EPSSurpriseDollar: " << ksd.EPSSurpriseDollar << endl;
-    cout << "EPSSurprisePercent: " << ksd.EPSSurprisePercent << endl;
-    cout << "returnOnAssets: " << ksd.returnOnAssets << endl;
-    cout << "returnOnCapital: " << ksd.returnOnCapital << endl;
-    cout << "profitMargin: " << ksd.profitMargin << endl;
-    cout << "priceToSales: " << ksd.priceToSales << endl;
-    cout << "priceToBook: " << ksd.priceToBook << endl;
-    cout << "day200MovingAvg: " << ksd.day200MovingAvg << endl;
-    cout << "day50MovingAvg: " << ksd.day50MovingAvg << endl;
-    cout << "institutionPercent: " << ksd.institutionPercent << endl;
-    cout << "insiderPercent: " << ksd.insiderPercent << endl;
-    cout << "shortRatio: " << ksd.shortRatio << endl;
-    cout << "year5ChangePercent: " << ksd.year5ChangePercent << endl;
-    cout << "year2ChangePercent: " << ksd.year2ChangePercent << endl;
-    cout << "year1ChangePercent: " << ksd.year1ChangePercent << endl;
-    cout << "ytdChangePercent: " << ksd.ytdChangePercent << endl;
-    cout << "month6ChangePercent: " << ksd.month6ChangePercent << endl;
-    cout << "month3ChangePercent: " << ksd.month3ChangePercent << endl;
-    cout << "month1ChangePercent: " << ksd.month1ChangePercent << endl;
-    cout << "day5ChangePercent: " << ksd.day5ChangePercent << endl;
+    cout << "ttmEPS: " << ksd.ttm_EPS << endl;
+    cout << "revenuePerShare: " << ksd.revenue_per_share << endl;
+    cout << "revenuePerEmployee: " << ksd.revenue_per_employee << endl;
+    cout << "peRatioHigh: " << ksd.pe_ratio_high << endl;
+    cout << "peRatioLow: " << ksd.pe_ratio_low << endl;
+    cout << "EPSSurpriseDollar: " << ksd.EPS_surprise_dollar << endl;
+    cout << "EPSSurprisePercent: " << ksd.EPS_surprise_percent << endl;
+    cout << "returnOnAssets: " << ksd.return_on_assets << endl;
+    cout << "returnOnCapital: " << ksd.return_on_capital << endl;
+    cout << "profitMargin: " << ksd.profit_margin << endl;
+    cout << "priceToSales: " << ksd.price_to_sales << endl;
+    cout << "priceToBook: " << ksd.price_to_book << endl;
+    cout << "day200MovingAvg: " << ksd.day_200_moving_avg << endl;
+    cout << "day50MovingAvg: " << ksd.day_50_moving_avg << endl;
+    cout << "institutionPercent: " << ksd.institution_percent << endl;
+    cout << "insiderPercent: " << ksd.insider_percent << endl;
+    cout << "shortRatio: " << ksd.short_ratio << endl;
+    cout << "year5ChangePercent: " << ksd.year_5_change_percent << endl;
+    cout << "year2ChangePercent: " << ksd.year_2_change_percent << endl;
+    cout << "year1ChangePercent: " << ksd.year_1_change_percent << endl;
+    cout << "ytdChangePercent: " << ksd.ytd_change_percent << endl;
+    cout << "month6ChangePercent: " << ksd.month_6_change_percent << endl;
+    cout << "month3ChangePercent: " << ksd.month_3_change_percent << endl;
+    cout << "month1ChangePercent: " << ksd.month_1_change_percent << endl;
+    cout << "day5ChangePercent: " << ksd.day_5_change_percent << endl;
 }
 
 void print_financials(const std::string& symbol,
-                      const IEX::Resources::Financials::Period period) {
-    auto financials = IEX::Resources::Financials::get(symbol, period);
+                      const IEX::Period period) {
+    auto financials = IEX::Stock::getFinancials(symbol, period);
     for (const auto& f : financials) {
         cout << "called_endpoint: " << f.called_endpoint << endl;
         cout << "stock_symbol: " << f.stock_symbol << endl;
@@ -118,25 +117,84 @@ void print_financials(const std::string& symbol,
         cout << "operating_gains_losses: " << f.operating_gains_losses << endl;
     }
 }
+void print_dividends(const std::string& symbol, const std::string& range) {
+    IEX::DividendsData data = IEX::Stock::getDividends(symbol, range);
+    cout << "Called Endpoint: " << data.called_endpoint << endl;
+    cout << "Number of dividends: " << data.number_of_dividends << endl;
+    int i = 1;
+    for (const IEX::Dividend& dividend : data.dividends) {
+        cout << "Dividend #" << i << endl;
+        i = i + 1;
+        cout << "\texDate: " << dividend.ex_date << endl;
+        cout << "\tPayment Date: " << dividend.payment_date << endl;
+        cout << "\tRecord Date: " << dividend.record_date << endl;
+        cout << "\tDeclared Date: " << dividend.declared_date << endl;
+        cout << "\tAmount: " << dividend.amount << endl;
+        cout << "\tFlag: " << dividend.flag << endl;
+        cout << "\tType: " << dividend.type << endl;
+        cout << "\tQualified: " << dividend.qualified << endl;
+        cout << "\tIndicated: " << dividend.indicated << endl;
+    }
+}
 
-void menu_options() {
-    cout << "IEX C++ Client \n" << endl;
-    cout << "./main stock_symbol option" << endl;
-    cout << "    ex: ./main AMZN -p \n" << endl;
-    cout << " options:" << endl;
-    cout << "   -c Company Information" << endl;
-    cout << "   -l Company Logo" << endl;
-    cout << "   -p Stock Latest Price" << endl;
-    cout << "   -s Stock Statistics" << endl;
-    cout << "   -r Stock Financial Reports" << endl;
+void menu_options(const std::string& symbol) {
+    cout << "\n--------------------------------------------------" << endl;
+    cout << "OPTIONS for [" + symbol + "]" << endl;
+    cout << " 1. Company Information" << endl;
+    cout << " 2. Stock/Company Logo" << endl;
+    cout << " 3. Stock/Company Latest Price" << endl;
+    cout << " 4. Stock/Company Statistics" << endl;
+    cout << " 5. Stock/Company Financial Reports" << endl;
+    cout << " 6. Stock/Company Dividends" << endl;
+    cout << " 0. Quit\n\n" << endl;
+}
+
+
+void print_menu(const std::string& symbol) {
+    int choice;
+    menu_options(symbol);
+    std::cin >> choice;
+
+    while (choice != 0) {
+        switch(choice) {
+        case 1:
+           print_company(symbol);
+           break;
+        case 2:
+           print_company_logo(symbol);
+           break;
+        case 3:
+           print_price(symbol);
+           break;
+        case 4:
+           print_stats(symbol);
+           break;
+        case 5:
+           print_financials(symbol, IEX::Period::annual);
+           break;
+        case 6:
+           print_dividends(symbol,"3m");
+           break;
+        case 0:
+           std::cout << "Bye!" << endl;
+           break;
+        default:
+           std::cout << "Invalid Option" << endl;
+           break;
+        }
+        cin.clear();
+        menu_options(symbol);
+        std::cin >> choice;
+   }
 }
 
 void run_all_methods(const std::string& symbol) {
-    print_company(symbol);
-    print_company_logo(symbol);
-    print_price(symbol);
-    print_stats(symbol);
-    print_financials(symbol, IEX::Resources::Financials::Period::annual);
+   print_company(symbol);
+   print_company_logo(symbol);
+   print_price(symbol);
+   print_stats(symbol);
+   print_financials(symbol, IEX::Period::annual);
+   print_dividends(symbol, "3m");
 }
 
 int main(int argc, char* argv[]) {
@@ -154,17 +212,15 @@ int main(int argc, char* argv[]) {
             print_stats(symbol);
         } else if (argument == "-r") {
             print_financials(symbol,
-                             IEX::Resources::Financials::Period::annual);
+                             IEX::Period::annual);
         } else if (argument == "-a") {
             run_all_methods("AMZN");
         } else {
             std::cout << "Option Invalid" << endl;
         }
-
         return 0;
-
     } else {
-        menu_options();
+        print_menu(argv[1]);
         return 1;
     }
 }
